@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Crafted Threads</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Textile Customization</h1>
+            <nav>
+                <ul class="main-menu">
+                    <li>
+                        <a href="#" onclick="showCategory('men')">Men</a>
+                        <ul class="sub-menu">
+                            <li><a href="#" onclick="filterProducts('men', 'T-Shirts')">T-Shirts</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Winterwear')">Winterwear</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Polos')">Polos</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Shirts')">Shirts</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Cotton')">Cotton</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Linen')">Linen</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Jeans')">Jeans</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Pants')">Pants</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Joggers')">Joggers</a></li>
+                            <li><a href="#" onclick="filterProducts('men', 'Cargos')">Cargos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showCategory('women')">Women</a>
+                        <ul class="sub-menu">
+                            <li><a href="#" onclick="filterProducts('women', 'T-Shirts')">T-Shirts</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Winterwear')">Winterwear</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Polos')">Polos</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Shirts')">Shirts</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Cotton')">Cotton</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Linen')">Linen</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Jeans')">Jeans</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Pants')">Pants</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Joggers')">Joggers</a></li>
+                            <li><a href="#" onclick="filterProducts('women', 'Cargos')">Cargos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button onclick="showCart()" class="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+                <button onclick="showManageMenu()" class="admin-btn">Manage Menu</button>
+                <button onclick="showSalesReport()" class="admin-btn">Sales Report</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Products Section -->
+        <section id="products-section">
+            <h2 id="section-title">All Products</h2>
+            <div id="products-grid" class="products-grid"></div>
+        </section>
+
+        <!-- Product Details Modal -->
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="product-details"></div>
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div id="cart-section" class="cart-section hidden">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h3>Total: ₹<span id="cart-total">0</span></h3>
+                <button onclick="clearCart()" class="btn-danger">Clear Cart</button>
+                <button onclick="proceedToBilling()" class="btn-primary">Proceed to Billing</button>
+            </div>
+        </div>
+
+        <!-- Billing Section -->
+        <div id="billing-section" class="billing-section hidden">
+            <h2>Billing</h2>
+            <div id="billing-items"></div>
+            <div class="billing-total">
+                <h3>Total Amount: ₹<span id="billing-total">0</span></h3>
+                <button onclick="showQRCode()" class="btn-primary">Pay Now</button>
+                <button onclick="printBill()" class="btn-secondary">Print Bill</button>
+                <button onclick="completeOrder()" class="btn-success">Complete Order</button>
+            </div>
+        </div>
+
+        <!-- QR Code Modal -->
+        <div id="qr-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeQRModal()">&times;</span>
+                <h3>Scan QR Code to Pay</h3>
+                <div id="qr-code-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=UPI:rossidr72@okicici" alt="QR Code">
+                </div>
+                <p>Amount: ₹<span id="qr-amount">0</span></p>
+            </div>
+        </div>
+
+        <!-- Manage Menu Section -->
+        <div id="manage-menu-section" class="manage-section hidden">
+            <h2>Manage Products</h2>
+            <form id="product-form" onsubmit="saveProduct(event)">
+                <input type="hidden" id="product-id">
+                <label>Category:</label>
+                <select id="product-category" required>
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                </select>
+                <label>Subcategory:</label>
+                <select id="product-subcategory" required>
+                    <option value="T-Shirts">T-Shirts</option>
+                    <option value="Winterwear">Winterwear</option>
+                    <option value="Polos">Polos</option>
+                    <option value="Shirts">Shirts</option>
+                    <option value="Cotton">Cotton</option>
+                    <option value="Linen">Linen</option>
+                    <option value="Jeans">Jeans</option>
+                    <option value="Pants">Pants</option>
+                    <option value="Joggers">Joggers</option>
+                    <option value="Cargos">Cargos</option>
+                </select>
+                <label>Product Name:</label>
+                <input type="text" id="product-name" required>
+                <label>Description:</label>
+                <textarea id="product-description" required></textarea>
+                <label>Price (₹):</label>
+                <input type="number" id="product-price" step="0.01" required>
+                <label>Image URL:</label>
+                <input type="url" id="product-image" required>
+                <button type="submit" class="btn-primary">Save Product</button>
+                <button type="button" onclick="resetForm()" class="btn-secondary">Reset</button>
+            </form>
+            <div id="manage-products-list"></div>
+        </div>
+
+        <!-- Sales Report Section -->
+        <div id="sales-report-section" class="sales-section hidden">
+            <h2>Monthly Sales Report</h2>
+            <div class="report-filters">
+                <label>Select Month:</label>
+                <input type="month" id="report-month" onchange="generateReport()">
+            </div>
+            <div id="sales-report-content"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
